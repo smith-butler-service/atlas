@@ -14,3 +14,5 @@ task:
   compile_script: python3 -m py_compile core/atlas_core.py core/atlas_monitor.py
   load_script: python3 -c "import os, multiprocessing; print('cpu_count:', os.cpu_count()); print('multiprocessing cpu_count:', multiprocessing.cpu_count())"
   done_script: echo "Cirrus CI heavy job ran on the free tier"
+
+# Re-triggered 2026-11-20: second push to confirm Cirrus picks up the build.
