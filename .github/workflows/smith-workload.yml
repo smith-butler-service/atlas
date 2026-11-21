@@ -1,0 +1,24 @@
+name: Smith Research Workload
+on:
+  schedule:
+    - cron: '30 3 * * 0'
+  workflow_dispatch:
+    inputs:
+      samples:
+        description: 'Synthetic ligand samples to generate'
+        default: '20000'
+        required: false
+jobs:
+  workload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install numpy
+      - run: python core/smith_research_workload.py --samples ${{ inputs.samples || 20000 }} --folds 5 --out workload-metrics.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: workload-metrics
+          path: workload-metrics.json
