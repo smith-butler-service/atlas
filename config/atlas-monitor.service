@@ -1,0 +1,13 @@
+[Unit]
+Description=ATLAS monitor daemon (host metrics to SQLite + JSON)
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/hatch/workspace/atlas/core/atlas_monitor.py
+Restart=on-failure
+RestartSec=30
+WorkingDirectory=/home/hatch/workspace/atlas
+
+[Install]
+WantedBy=default.target

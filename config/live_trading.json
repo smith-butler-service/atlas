@@ -1,0 +1,1 @@
+{"allowed_pairs":["XMR/USDT","KAS/USDT","ERG/USDT"],"daily_loss_limit_usd_cents":500,"enabled":false,"exchange":"kucoin","min_capital_usd_cents":1000,"mode":"live-gated","per_order_cap_usd_cents":500,"version":"0.1.0-mission24"}
