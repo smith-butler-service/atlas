@@ -1,0 +1,16 @@
+# Cirrus CI free-tier check for the public atlas repository.
+# No card and no compute credits: Cirrus CI is free for public
+# repositories. Linux containers allow up to 8 CPUs and 32 GB,
+# with at most 4 GB of memory per CPU, so 8 CPU / 24 GB is in range.
+container:
+  image: python:3.12
+  cpu: 8
+  memory: 24G
+
+task:
+  name: Heavy free-tier check
+  info_script: echo "Requested 8 CPU / 24 GB"; nproc; grep MemTotal /proc/meminfo
+  cgroup_script: cat /sys/fs/cgroup/memory.max 2>/dev/null || cat /sys/fs/cgroup/memory/memory.limit_in_bytes 2>/dev/null || echo "no cgroup memory file"; cat /sys/fs/cgroup/cpu.max 2>/dev/null || cat /sys/fs/cgroup/cpu/cpu.cfs_quota_us 2>/dev/null || echo "no cgroup cpu file"
+  compile_script: python3 -m py_compile core/atlas_core.py core/atlas_monitor.py
+  load_script: python3 -c "import os, multiprocessing; print('cpu_count:', os.cpu_count()); print('multiprocessing cpu_count:', multiprocessing.cpu_count())"
+  done_script: echo "Cirrus CI heavy job ran on the free tier"
